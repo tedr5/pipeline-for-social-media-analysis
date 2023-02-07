@@ -1,0 +1,346 @@
+[
+{
+        "_id" : "1421599703116943360",
+        "public_metrics" : {
+                "retweet_count" : 0,
+                "reply_count" : 0,
+                "like_count" : 0,
+                "quote_count" : 0
+        },
+        "id" : "1421599703116943360",
+        "conversation_id" : "1421599703116943360",
+        "context_annotations" : [
+                {
+                        "domain" : {
+                                "id" : "6",
+                                "name" : "Sports Event"
+                        },
+                        "entity" : {
+                                "id" : "1103026158382141440",
+                                "name" : "Tokyo 2020 Summer Olympics",
+                                "description" : "Tokyo 2020 Summer Olympics "
+                        }
+                },
+                {
+                        "domain" : {
+                                "id" : "10",
+                                "name" : "Person",
+                                "description" : "Named people in the world like Nelson Mandela"
+                        },
+                        "entity" : {
+                                "id" : "733774054713217024",
+                                "name" : "Max Gradel"
+                        }
+                },
+                {
+                        "domain" : {
+                                "id" : "10",
+                                "name" : "Person",
+                                "description" : "Named people in the world like Nelson Mandela"
+                        },
+                        "entity" : {
+                                "id" : "733774784014622720",
+                                "name" : "Eric Bailly"
+                        }
+                },
+                {
+                        "domain" : {
+                                "id" : "60",
+                                "name" : "Athlete",
+                                "description" : "An athlete in the world, like Serena Williams or Lionel Messi"
+                        },
+                        "entity" : {
+                                "id" : "733774054713217024",
+                                "name" : "Max Gradel"
+                        }
+                },
+                {
+                        "domain" : {
+                                "id" : "60",
+                                "name" : "Athlete",
+                                "description" : "An athlete in the world, like Serena Williams or Lionel Messi"
+                        },
+                        "entity" : {
+                                "id" : "733774784014622720",
+                                "name" : "Eric Bailly"
+                        }
+                }
+        ],
+        "entities" : {
+                "mentions" : [
+                        {
+                                "start" : 0,
+                                "end" : 13,
+                                "username" : "ericbailly24",
+                                "id" : "4827016745"
+                        },
+                        {
+                                "start" : 14,
+                                "end" : 26,
+                                "username" : "maxigr04del",
+                                "id" : "254068589"
+                        }
+                ],
+                "hashtags" : [
+                        {
+                                "start" : 126,
+                                "end" : 142,
+                                "tag" : "SupportriceMazo"
+                        },
+                        {
+                                "start" : 143,
+                                "end" : 149,
+                                "tag" : "domie"
+                        },
+                        {
+                                "start" : 150,
+                                "end" : 154,
+                                "tag" : "CIV"
+                        }
+                ]
+        },
+        "author_id" : "1339914264522461187",
+        "text" : "@ericbailly24 @maxigr04del  mes tontons vous avez fait votre part , JO prochain on ira en demi final au moins. BRAVO à vous . #SupportriceMazo #domie #CIV",
+        "geo" : {
+                "place_id" : "00b8943291443c8c"
+        },
+        "lang" : "fr",
+        "created_at" : "2021-07-31T22:32:35.000Z"
+},
+{
+        "_id" : "1421599163561742339",
+        "public_metrics" : {
+                "retweet_count" : 0,
+                "reply_count" : 1,
+                "like_count" : 1,
+                "quote_count" : 0
+        },
+        "id" : "1421599163561742339",
+        "conversation_id" : "1421599163561742339",
+        "context_annotations" : [
+                {
+                        "domain" : {
+                                "id" : "5",
+                                "name" : "Sports Event"
+                        },
+                        "entity" : {
+                                "id" : "1421599163561742339",
+                                "name" : "CIV",
+                                "description" : "CIV éliminé "
+                        }
+                }
+        ],
+        "author_id" : "1339914264522461187",
+        "text" : "Ah oui le sommeil là sera compliqué. #CIV  est éliminé des JO , Ahi on peut faire ça ?",
+        "geo" : {
+                "place_id" : "00b8943291443c8c"
+        },
+        "lang" : "fr",
+        "created_at" : "2021-07-31T22:30:27.000Z",
+        "entities" : {
+                "hashtags" : [
+                        {
+                                "start" : 37,
+                                "end" : 41,
+                                "tag" : "CIV"
+                        }
+                ]
+        }
+},
+{
+        "_id" : "1421591889095057416",
+        "public_metrics" : {
+                "retweet_count" : 0,
+                "reply_count" : 0,
+                "like_count" : 0,
+                "quote_count" : 0
+        },
+        "id" : "1421591889095057416",
+        "conversation_id" : "1421591889095057416",
+        "context_annotations" : [
+                {
+                        "domain" : {
+                                "id" : "8",
+                                "name" : "Person"
+                        },
+                        "entity" : {
+                                "id" : "1421591889095057416",
+                                "name" : "Journée femme africaine",
+                                "description" : "journée internationale "
+                        }
+                }
+        ],
+        "author_id" : "1339914264522461187",
+        "text" : "31 juillet , journée internationale de la femme africaine ❤️#jifa",
+        "geo" : {
+                "place_id" : "00b8943291443c8c"
+        },
+        "lang" : "fr",
+        "created_at" : "2021-07-31T22:01:32.000Z",
+        "entities" : {
+                "hashtags" : [
+                        {
+                                "start" : 60,
+                                "end" : 65,
+                                "tag" : "jifa"
+                        }
+                ]
+        }
+},
+
+{
+        "_id" : "1421563798503272448",
+        "public_metrics" : {
+                "retweet_count" : 0,
+                "reply_count" : 0,
+                "like_count" : 0,
+                "quote_count" : 0
+        },
+        "id" : "1421563798503272448",
+        "conversation_id" : "1421563798503272448",
+        "context_annotations" : [
+                {
+                        "domain" : {
+                                "id" : "8",
+                                "name" : "Person"
+                        },
+                        "entity" : {
+                                "id" : "1421591889095057416",
+                                "name" : "Versailles",
+                                "description" : "Versailles bains d'apollon"
+                        }
+                }
+        ],
+        "author_id" : "1471684208",
+        "text" : "Les bains d'apollon #versailles #nocturne #appollon à Château de Versailles https://t.co/SFGXP06r61",
+        "geo" : {
+                "place_id" : "011a304d683c2461",
+                "coordinates" : {
+                        "type" : "Point",
+                        "coordinates" : [
+                                2.12305963,
+                                48.80396808
+                        ]
+                }
+        },
+        "lang" : "fr",
+        "created_at" : "2021-07-31T20:09:55.000Z",
+        "entities" : {
+                "urls" : [
+                        {
+                                "start" : 76,
+                                "end" : 99,
+                                "url" : "https://t.co/SFGXP06r61",
+                                "expanded_url" : "https://www.instagram.com/p/CSASOyUN0OF/?utm_medium=twitter",
+                                "display_url" : "instagram.com/p/CSASOyUN0OF/…"
+                        }
+                ],
+                "hashtags" : [
+                        {
+                                "start" : 20,
+                                "end" : 31,
+                                "tag" : "versailles"
+                        },
+                        {
+                                "start" : 32,
+                                "end" : 41,
+                                "tag" : "nocturne"
+                        },
+                        {
+                                "start" : 42,
+                                "end" : 51,
+                                "tag" : "appollon"
+                        }
+                ]
+        }
+},
+
+
+
+{
+        "_id" : "1421550148061212673",
+        "public_metrics" : {
+                "retweet_count" : 0,
+                "reply_count" : 0,
+                "like_count" : 0,
+                "quote_count" : 0
+        },
+        "id" : "1421550148061212673",
+        "conversation_id" : "1421550148061212673",
+        "context_annotations" : [
+                {
+                        "domain" : {
+                                "id" : "86",
+                                "name" : "Movie",
+                                "description" : "A film like Rogue One: A Star Wars Story"
+                        },
+                        "entity" : {
+                                "id" : "1412046984840503297",
+                                "name" : "Jungle Cruise",
+                                "description" : "Jungle Cruise is scheduled to be released in the United States on July 30, 2021, simultaneously in theaters and through Disney+ with Premier Access."
+                        }
+                },
+                {
+                        "domain" : {
+                                "id" : "87",
+                                "name" : "Movie Genre",
+                                "description" : "A movie genre like Action"
+                        },
+                        "entity" : {
+                                "id" : "856976360337661952",
+                                "name" : "Action & adventure films",
+                                "description" : "Action and adventure"
+                        }
+                }
+        ],
+        "author_id" : "60117154",
+        "text" : "Jungle Cruise https://t.co/JyM8WQjz4p (@ UGC Cyrano in Versailles, Île-de-France) https://t.co/ts0FrwWU8W",
+        "geo" : {
+                "place_id" : "011a304d683c2461",
+                "coordinates" : {
+                        "type" : "Point",
+                        "coordinates" : [
+                                2.13096244,
+                                48.80797406
+                        ]
+                }
+        },
+        "lang" : "fr",
+        "created_at" : "2021-07-31T19:15:41.000Z",
+        "entities" : {
+                "urls" : [
+                        {
+                                "start" : 14,
+                                "end" : 37,
+                                "url" : "https://t.co/JyM8WQjz4p",
+                                "expanded_url" : "http://www.allocine.fr/film/fichefilm_gen_cfilm=57197.html",
+                                "display_url" : "allocine.fr/film/fichefilm…"
+                        },
+                        {
+                                "start" : 82,
+                                "end" : 105,
+                                "url" : "https://t.co/ts0FrwWU8W",
+                                "expanded_url" : "https://www.swarmapp.com/c/jsDjL5Jou3S",
+                                "display_url" : "swarmapp.com/c/jsDjL5Jou3S"
+                        }
+                ], 
+                "hashtags" : [
+                        {
+                                "start" : 22,
+                                "end" : 32,
+                                "tag" : "film"
+                        },
+                        {
+                                "start" : 33,
+                                "end" : 42,
+                                "tag" : "jungle"
+                        },
+                        {
+                                "start" : 43,
+                                "end" : 52,
+                                "tag" : "cruise"
+                        }
+                ]
+        }
+}
+]
