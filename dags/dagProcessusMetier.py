@@ -252,14 +252,14 @@ def insert_to_datalake(**kwargs):
         auteur = author_task_instance[i]
         sentiment = sentiment_task_instance[i]
         id = id_tweet[i]
-        cursor.execute('INSERT INTO tweet_analyse(id_twt, auteur, sentiment) VALUES (%s,%s, %s)',(id, auteur, sentiment))
+        cursor.execute('INSERT INTO tweet_analyse(id_twt, auteur, sentiment) VALUES (%s,%s, %s) ON CONFLICT DO NOTHING',(id, auteur, sentiment))
         topic = topics_task_instance[i]
         for elt in topic:
-            cursor.execute('INSERT INTO tweet_topic(id_topic, id_twt, topic) VALUES (%s, %s, %s)',(cpt, id,  elt))
+            cursor.execute('INSERT INTO tweet_topic(id_topic, id_twt, topic) VALUES (%s, %s, %s) ON CONFLICT DO NOTHING',(cpt, id,  elt))
             cpt += 1
         hashtag = hashtags_task_instance[i]
         for elt in hashtag:
-            cursor.execute('INSERT INTO tweet_hashtag(id_hashtag, id_twt, hashtag) VALUES (%s, %s, %s)',(cpt2, id, elt))
+            cursor.execute('INSERT INTO tweet_hashtag(id_hashtag, id_twt, hashtag) VALUES (%s, %s, %s) ON CONFLICT DO NOTHING',(cpt2, id, elt))
             cpt2 += 1
     
 
