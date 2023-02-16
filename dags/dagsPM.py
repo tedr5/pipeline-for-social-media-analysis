@@ -6,23 +6,23 @@ from datetime import datetime, timedelta
 
 default_args = {
     'owner': 'thomas',
-    'start_date': datetime(2023, 2, 3),
+    'start_date': datetime(2023, 2, 10),
     'retries': 1,
-    'retry_delay': timedelta(minutes=5),
+    'retry_delay': timedelta(minutes=5)
 }
 
 dag = DAG(
     'dagPM',
     default_args=default_args,
     description='dag PM',
-    schedule_interval=timedelta(days=1),
+    schedule_interval=timedelta(days=1)
 )
 
 
 
 
 
-def create_dw(ds, **kwargs):
+def create_dw(**kwargs):
     import psycopg2
     conn = psycopg2.connect(
         host="manny.db.elephantsql.com",
@@ -53,10 +53,12 @@ def create_dw(ds, **kwargs):
                         FOREIGN KEY(id_tweet)
                             REFERENCES tweets(id_tweet)
                     )""")
+    conn.commit()
+    conn.close()
     print("Table created successfully")
 
 
-def init_dl(ds, **kwargs):
+def init_dl(**kwargs):
         import psycopg2
         from psycopg2.extras import Json
         import json
@@ -73,161 +75,211 @@ def init_dl(ds, **kwargs):
                     c_json   json)""")
         cur.execute("""CREATE UNIQUE INDEX IF NOT EXISTS on_id_tweets ON t_json( (c_json->>'id') ) ;""")
         # chargement du fichier json
-        my_file = open("file/versailles_tweets_100.json", encoding="utf-8")
+        my_file = open("/home/tr/airflow/dags/file/versailles_tweets_100.json", encoding="utf-8")
         data = json.load(my_file)
         # insertion de tous les tuples avec clés générées automatiquement
         for index in range(len(data)):
             d = data[index]
             cur.execute("""INSERT INTO t_json (c_json) VALUES (%s) ON CONFLICT DO NOTHING""", [Json(d)])
         conn.commit()
-        conn.close()    
-
-def author_id(**kwargs):
-        import psycopg2
-        conn = psycopg2.connect(
+        conn.close()  
+  
+def extract_from_db(**context):
+    import psycopg2
+    conn = psycopg2.connect(
             host="manny.db.elephantsql.com",
             database="ooclcvaz",
             user="ooclcvaz",
             password="4GtEGH2xmigXGU3lVd8_6NQEHbUUtTYq"
-        )
-        cur = conn.cursor()
-        key = kwargs['key']
-        cur.execute("""SELECT c_json
-                            FROM t_json
-                            WHERE id = (%s)""", [key])
-        row = cur.fetchone()
-        conn.commit()
-        conn.close()
-        dic = row[0]
-        return dic['author_id']
+    )
+    cur = conn.cursor()
+    cur.execute("""SELECT * FROM t_json""")
+    result = cur.fetchall()
+    context['ti'].xcom_push(key='result', value=result)
 
-def hashtag_extraction(**kwargs):
-        import psycopg2
-        conn = psycopg2.connect(
-            host="manny.db.elephantsql.com",
-            database="ooclcvaz",
-            user="ooclcvaz",
-            password="4GtEGH2xmigXGU3lVd8_6NQEHbUUtTYq"
-        )
-        cur = conn.cursor()
-        key = kwargs['key']
-        cur.execute("""SELECT c_json
-                                FROM t_json
-                                WHERE id = (%s)""", [key])
-        row = cur.fetchone()
-        conn.commit()
-        conn.close()
-        dic = row[0]
-        list_hashtags = []
-        try:
-            d = dic['entities']['hashtags']
-            for index in range(len(d)):
-                hashtag = d[index]['tag']
-                list_hashtags.append(hashtag)
-        except KeyError:
-            pass
-        return list_hashtags
+def author_id(id_tweet):
+    import psycopg2
+    conn = psycopg2.connect(
+        host="manny.db.elephantsql.com",
+        database="ooclcvaz",
+        user="ooclcvaz",
+        password="4GtEGH2xmigXGU3lVd8_6NQEHbUUtTYq"
+    )
+    cur = conn.cursor()
+    cur.execute("""SELECT c_json
+                    FROM t_json
+                    WHERE id = (%s)""", [id_tweet])
+    row = cur.fetchone()
+    conn.commit()
+    conn.close()
+    print("#######FINI AUTHOR ")
+    dic = row[0]
+    return dic['author_id']
 
-def sentiment_analysis(**kwargs):
-        import psycopg2
-        from textblob import TextBlob
-        conn = psycopg2.connect(
-            host="manny.db.elephantsql.com",
-            database="ooclcvaz",
-            user="ooclcvaz",
-            password="4GtEGH2xmigXGU3lVd8_6NQEHbUUtTYq"
-        )
-        cur = conn.cursor()
-        key = kwargs['key']
-        cur.execute("""SELECT c_json
-                                        FROM t_json
-                                        WHERE id = (%s)""", [key])
-        row = cur.fetchone()
-        conn.commit()
-        conn.close()
-        dic = row[0]
-        tweet = TextBlob(dic['text'])
-        if tweet.sentiment.polarity >= 0:
-            return "positive"
-        return "negative"
+def sentiment_analysis(id_tweet):
+    import psycopg2
+    from textblob import TextBlob
+    conn = psycopg2.connect(
+        host="manny.db.elephantsql.com",
+        database="ooclcvaz",
+        user="ooclcvaz",
+        password="4GtEGH2xmigXGU3lVd8_6NQEHbUUtTYq"
+    )
+    cur = conn.cursor()
+    cur.execute("""SELECT c_json
+                        FROM t_json
+                        WHERE id = (%s)""", [id_tweet])
+    row = cur.fetchone()
+    conn.commit()
+    conn.close()
+    dic = row[0]
+    tweet = TextBlob(dic['text'])
+    if tweet.sentiment.polarity >= 0:
+        return "positive"
+    return "negative"
 
-def topic_id(**kwargs):
-        import psycopg2
-        conn = psycopg2.connect(
-            host="manny.db.elephantsql.com",
-            database="ooclcvaz",
-            user="ooclcvaz",
-            password="4GtEGH2xmigXGU3lVd8_6NQEHbUUtTYq"
-        )
-        cur = conn.cursor()
-        key = kwargs['key']
-        cur.execute("""SELECT c_json
-                                        FROM t_json
-                                        WHERE id = (%s)""", [key])
-        row = cur.fetchone()
-        conn.commit()
-        conn.close()
-        dic = row[0]
-        list_topics = []
-        try:
-            d = dic['context_annotations']
-            for index in range(len(d)):
-                topic = d[index]['entity']['name']
-                list_topics.append(topic)
-        except KeyError:
-            pass
-        return list_topics
+def hashtag_extraction(id_tweet):
+    import psycopg2
+    conn = psycopg2.connect(
+        host="manny.db.elephantsql.com",
+        database="ooclcvaz",
+        user="ooclcvaz",
+        password="4GtEGH2xmigXGU3lVd8_6NQEHbUUtTYq"
+    )
+    cur = conn.cursor()
+    cur.execute("""SELECT c_json
+                        FROM t_json
+                        WHERE id = (%s)""", [id_tweet])
+    row = cur.fetchone()
+    conn.commit()
+    conn.close()
+    dic = row[0]
+    list_hashtags = []
+    try:
+        d = dic['entities']['hashtags']
+        for index in range(len(d)):
+            hashtag = d[index]['tag']
+            list_hashtags.append(hashtag)
+    except KeyError:
+        pass
+    for elt in list_hashtags:
+        print("Les hashtags extraits: ", elt)
+    print("###### FINI HASHTAGS:  ", list_hashtags)
+    return list_hashtags
 
-def insert_dw(**kwargs):
+
+def topic_id(id_tweet):
+    import psycopg2
+    conn = psycopg2.connect(
+        host="manny.db.elephantsql.com",
+        database="ooclcvaz",
+        user="ooclcvaz",
+        password="4GtEGH2xmigXGU3lVd8_6NQEHbUUtTYq"
+    )
+    cur = conn.cursor()
+    cur.execute("""SELECT c_json
+                        FROM t_json
+                        WHERE id = (%s)""", [id_tweet])
+    row = cur.fetchone()
+    conn.commit()
+    conn.close()
+    dic = row[0]
+    list_topics = []
+    try:
+        d = dic['context_annotations']
+        for index in range(len(d)):
+            topic = d[index]['entity']['name']
+            list_topics.append(topic)
+    except KeyError:
+        pass
+    for elt in list_topics:
+        print("Les topics extraits: ", elt)
+    print("######## FINI TOPIC: ", list_topics)
+    return list_topics
+
+def all_authors(**context):
+    result = context['ti'].xcom_pull(task_ids='extract_from_db', key='result')
+    dict_all_authors = {}
+    for row in result:
+        id = row[0]
+        author = author_id(id)
+        dict_all_authors[id] = author
+    print("########### ",dict_all_authors)
+    context['ti'].xcom_push(key='all_authors', value=dict_all_authors)
+
+def all_sentiment(**context):
+    result = context['ti'].xcom_pull(task_ids='extract_from_db', key='result')
+    dict_all_sentiment = {}
+    for row in result:
+        id = row[0]
+        sentiment = sentiment_analysis(id)
+        dict_all_sentiment[id] = sentiment
+    print("########### ",dict_all_sentiment)
+    context['ti'].xcom_push(key='all_sentiment', value=dict_all_sentiment)
+
+def all_hashtags(**context):
+    result = context['ti'].xcom_pull(task_ids='extract_from_db', key='result')
+    dict_all_hashtags = {}
+    for row in result:
+        id = row[0]
+        hashtags = hashtag_extraction(id)
+        if hashtags:
+            dict_all_hashtags[id] = hashtags 
+    print("########### ",dict_all_hashtags)
+    context['ti'].xcom_push(key='all_hashtags', value=dict_all_hashtags)
+
+def all_topics(**context):
+    result = context['ti'].xcom_pull(task_ids='extract_from_db', key='result')
+    dict_all_topics = {}
+    for row in result:
+        id = row[0]
+        topics = topic_id(id)
+        if topics:
+            dict_all_topics[id] = topics 
+    print("########### ",dict_all_topics)
+    context['ti'].xcom_push(key='all_topics', value=dict_all_topics)
+
+
+
+def insert_dw(**context):
         import psycopg2
         conn = psycopg2.connect(
         host="manny.db.elephantsql.com",
         database="pnhfwdno",
         user="pnhfwdno",
-        password="oGp5JpxnuWD-Gh-Rtk31jnc-cMliqr5u"
-    )
-        cur = conn.cursor()
-        
+        password="oGp5JpxnuWD-Gh-Rtk31jnc-cMliqr5u")
+        conn.autocommit = True
+        cursor_dw = conn.cursor()
+        # insertion des tuples et/ou actualisation de la base de données
+        authors = context['ti'].xcom_pull(task_ids='all_authors', key='all_authors')
+        sentiment = context['ti'].xcom_pull(task_ids='all_sentiment', key='all_sentiment')
+        hashtags = context['ti'].xcom_pull(task_ids='all_hashtags', key='all_hashtags')
+        topics = context['ti'].xcom_pull(task_ids='all_topics', key='all_topics')
 
-    # insertion des tuples et/ou actualisation de la base de données
-
-
-        conn2 =  psycopg2.connect(
-            host="manny.db.elephantsql.com",
-            database="ooclcvaz",
-            user="ooclcvaz",
-            password="4GtEGH2xmigXGU3lVd8_6NQEHbUUtTYq"
-        )
-        cur2 = conn2.cursor
-        cur2.execute("""SELECT * FROM t_json""")
-        result = cur2.fetchall()
-        ti = kwargs['ti']
-        for row in result:
-            id_tweet = row[0]
-            tweet_author = author_id(key=id_tweet)
-            tweet_sentiment = sentiment_analysis(key=id_tweet)
-            cur.execute("""INSERT INTO tweets(id_tweet, id_author, sentiment)
+        for id in authors.keys():
+            print("###########Dans le for!!")
+            cursor_dw.execute("""INSERT INTO tweets(id_tweet, id_author, sentiment)
                             VALUES (%s, %s, %s)
-                            ON CONFLICT DO NOTHING""", (id_tweet, tweet_author, tweet_sentiment))
-            print("Tweet "+str(id_tweet) + " inserted successfully or already inserted")
-            hashtags = hashtag_extraction(key=id_tweet)
-            if hashtags:
-                for index in range(len(hashtags[0])):
-                    cur.execute("""INSERT INTO tweets_hashtags(id_tweet, hashtag) 
+                            ON CONFLICT DO NOTHING""", (id, authors[id], sentiment[id]))
+            print("Tweet "+str(id) + " inserted successfully or already inserted")
+
+        for id in hashtags.keys():
+            for h in hashtags[id]: 
+                cursor_dw.execute("""INSERT INTO tweets_hashtags(id_tweet, hashtag) 
                                     VALUES (%s, %s)
                                     ON CONFLICT DO NOTHING
-                                """, (id_tweet, hashtags[0][index]))
-                    print("Couple tweet-hashtag Tweet" + str(id_tweet) + "---" + hashtags[0][index] + "inserted successfully or already inserted")
-            topics = topic_id(key=id_tweet)
-            if topics:
-                for index in range(len(topics[0])):
-                    cur.execute("""INSERT INTO tweets_topics(id_tweet, topic) 
+                                """, (id, h))
+                print("Pair tweet-hashtag Tweet " + str(id) + "---" + h + " --inserted successfully or already inserted")
+         
+        for id in topics.keys():
+            for t in topics[id]:
+                cursor_dw.execute("""INSERT INTO tweets_topics(id_tweet, topic) 
                                         VALUES (%s, %s)
                                         ON CONFLICT DO NOTHING
-                                    """, (id_tweet, topics[0][index]))
-                    print("Couple tweet-topic Tweet" + str(id_tweet) + "---" + topics[0][
-                        index] + "inserted successfully or already inserted")
-
+                                    """, (id, t))
+                print("Couple tweet-topic Tweet " + str(id) + "---" + t + " --inserted successfully or already inserted")
+        conn.close()
+    
 
 
 def publication_by_user(**kwargs):
@@ -236,7 +288,8 @@ def publication_by_user(**kwargs):
         host="manny.db.elephantsql.com",
         database="pnhfwdno",
         user="pnhfwdno",
-        password="oGp5JpxnuWD-Gh-Rtk31jnc-cMliqr5u")
+        password="oGp5JpxnuWD-Gh-Rtk31jnc-cMliqr5u"
+        )
         cur = conn.cursor()
         cur.execute("""SELECT id_author, COUNT(*) AS nb_p
                         FROM tweets
@@ -262,7 +315,8 @@ def publication_by_hashtag(**kwargs):
         host="manny.db.elephantsql.com",
         database="pnhfwdno",
         user="pnhfwdno",
-        password="oGp5JpxnuWD-Gh-Rtk31jnc-cMliqr5u")
+        password="oGp5JpxnuWD-Gh-Rtk31jnc-cMliqr5u"
+        )
         cur = conn.cursor()
         cur.execute("""SELECT hashtag, COUNT(*) AS nb_p
                         FROM tweets_hashtags
@@ -288,7 +342,8 @@ def publication_by_topic(**kwargs):
         host="manny.db.elephantsql.com",
         database="pnhfwdno",
         user="pnhfwdno",
-        password="oGp5JpxnuWD-Gh-Rtk31jnc-cMliqr5u")
+        password="oGp5JpxnuWD-Gh-Rtk31jnc-cMliqr5u"
+        )
         cur = conn.cursor()
         cur.execute("""SELECT topic, COUNT(*) AS nb_p
                         FROM tweets_topics
@@ -310,84 +365,88 @@ def publication_by_topic(**kwargs):
             pass
         return dic_topics
 
+
 init_dl_task = PythonOperator(
     task_id='init_dl',
     python_callable=init_dl,
-    provide_context=True,
     dag=dag
 )
 
 create_dw_task = PythonOperator(
     task_id='create_dw',
     python_callable=create_dw,
+    dag=dag
+)
+
+extract_task = PythonOperator(
+    task_id='extract_from_db',
+    python_callable=extract_from_db,
     provide_context=True,
     dag=dag
 )
 
 
-author_id_task = PythonOperator(
-    task_id='author_id',
-    python_callable=author_id,
-    provide_context=True,
-    dag=dag
-)
 
-hashtag_extraction_task = PythonOperator(
-    task_id='hashtag_extraction',
-    python_callable=hashtag_extraction,
-    provide_context=True,
-    dag=dag 
-)
-
-sentiment_analysis_task = PythonOperator(
-    task_id='sentiment_analysis',
-    python_callable=sentiment_analysis,
-    provide_context=True,
-    dag=dag 
-)
-
-topic_id_task = PythonOperator(
-    task_id='topic_id',
-    python_callable=topic_id,
-    provide_context=True,
-    dag=dag 
-)
-
-insert_dw_task = BranchPythonOperator(
+insert_dw_task = PythonOperator(
     task_id='insert_dw',
     python_callable=insert_dw,
     provide_context=True,
     dag=dag
 )
 
+
+
+all_authors_task = PythonOperator(
+    task_id='all_authors',
+    python_callable=all_authors,
+    provide_context=True,
+    dag=dag
+)
+
+
+all_sentiment_task = PythonOperator(
+    task_id='all_sentiment',
+    python_callable=all_sentiment,
+    provide_context=True,
+    dag=dag
+)
+
+all_hashtags_task = PythonOperator(
+    task_id='all_hashtags',
+    python_callable=all_hashtags,
+    provide_context=True,
+    dag=dag
+)
+
+all_topics_task = PythonOperator(
+    task_id='all_topics',
+    python_callable=all_topics,
+    provide_context=True,
+    dag=dag
+)
+
+
 publication_by_user_task = PythonOperator(
     task_id='publication_by_user_task',
     python_callable=publication_by_user,
-    provide_context=True,
     dag=dag
 )
 
 publication_by_hashtag_task = PythonOperator(
     task_id='publication_by_hashtag',
     python_callable=publication_by_hashtag,
-    provide_context=True,
-    dag=dag, 
+    dag=dag
 )
 
 publication_by_topic_task = PythonOperator(
     task_id='publication_by_topic',
     python_callable=publication_by_topic,
-    provide_context=True,
-    dag=dag, 
+    dag=dag
 )
 
 init_dl_task >> create_dw_task 
-create_dw_task >> author_id_task >> insert_dw_task
-create_dw_task >> sentiment_analysis_task >> insert_dw_task
-create_dw_task >> hashtag_extraction_task >> insert_dw_task
-create_dw_task >> topic_id_task >> insert_dw_task
+create_dw_task >> extract_task >> all_authors_task >> all_sentiment_task >> all_hashtags_task >> all_topics_task >> insert_dw_task 
+
 insert_dw_task >>  publication_by_user_task
-
 insert_dw_task >> publication_by_hashtag_task
-
 insert_dw_task >> publication_by_topic_task

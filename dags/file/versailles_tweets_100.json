@@ -861,4 +861,276 @@
                         }
                 ]
         }
-}]
+},
+
+{
+        "_id" : "1234567890",
+        "public_metrics" : {
+        "retweet_count" : 0,
+        "reply_count" : 0,
+        "like_count" : 0,
+        "quote_count" : 0
+        },
+        "id" : "1234567890",
+        "conversation_id" : "1234567890",
+        "context_annotations" : [
+        {
+        "domain" : {
+        "id" : "22",
+        "name" : "Place",
+        "description" : "Places around the world"
+        },
+        "entity" : {
+        "id" : "61527448",
+        "name" : "Versailles, France",
+        "description" : "Versailles, France"
+        }
+        }
+        ],
+        "entities" : {
+        "hashtags" : [
+        {
+        "start" : 55,
+        "end" : 61,
+        "tag" : "Versailles"
+        },
+        {
+        "start" : 62,
+        "end" : 66,
+        "tag" : "France"
+        }
+        ]
+        },
+        "author_id" : "1234567890",
+        "text" : "J'adore me promener dans les jardins de Versailles, c'est tellement beau ! #Versailles #France",
+        "lang" : "fr",
+        "created_at" : "2022-01-01T00:00:00.000Z"
+        },
+        
+        
+        
+        {
+        "_id" : "1421600000000000000",
+        "public_metrics" : {
+        "retweet_count" : 0,
+        "reply_count" : 0,
+        "like_count" : 0,
+        "quote_count" : 0
+        },
+        "id" : "1421600000000000000",
+        "conversation_id" : "1421600000000000000",
+        "context_annotations" : [
+        {
+        "domain" : {
+        "id" : "22",
+        "name" : "Place",
+        "description" : "Places around the world"
+        },
+        "entity" : {
+        "id" : "123456789",
+        "name" : "Versailles FC",
+        "description" : "Official account of Versailles FC"
+        }
+        }
+        ],
+        "entities" : {
+        "hashtags" : [
+        {
+        "start" : 35,
+        "end" : 49,
+        "tag" : "VersaillesFC"
+        }
+        ]
+        },
+        "author_id" : "1339914264522461187",
+        "text" : "Quelle belle victoire pour Versailles FC ce week-end ! Le club est en grande forme en ce moment, continuez comme ça les gars ! #VersaillesFC",
+        "lang" : "fr",
+        "created_at" : "2021-07-31T22:35:00.000Z"
+        }
+        ,
+        
+        {
+        "_id" : "1421600100000000000",
+        "public_metrics" : {
+        "retweet_count" : 0,
+        "reply_count" : 0,
+        "like_count" : 0,
+        "quote_count" : 0
+        },
+        "id" : "1421600100000000000",
+        "conversation_id" : "1421600100000000000",
+        "context_annotations" : [
+        {
+        "domain" : {
+        "id" : "22",
+        "name" : "Place",
+        "description" : "Places around the world"
+        },
+        "entity" : {
+        "id" : "149159586",
+        "name" : "Théâtre Montansier",
+        "description" : "Théâtre Montansier, situé à Versailles, France."
+        }
+        }
+        ],
+        "entities" : {
+        "hashtags" : [
+        {
+        "start" : 63,
+        "end" : 72,
+        "tag" : "théâtre"
+        },
+        {
+        "start" : 73,
+        "end" : 83,
+        "tag" : "Versailles"
+        }
+        ]
+        },
+        "author_id" : "1339914264522461187",
+        "text" : "J'ai assisté à une pièce de théâtre incroyable au Théâtre Montansier à Versailles ce soir. Les acteurs étaient formidables et le décor était magnifique. Si vous êtes fan de théâtre, je vous recommande vivement d'aller y faire un tour ! #théâtre #Versailles",
+        "lang" : "fr",
+        "created_at" : "2021-07-31T22:35:30.000Z"
+        }
+        ,
+        
+        {
+        "_id" : "1421600200000000000",
+        "public_metrics" : {
+        "retweet_count" : 0,
+        "reply_count" : 0,
+        "like_count" : 0,
+        "quote_count" : 0
+        },
+        "id" : "1421600200000000000",
+        "conversation_id" : "1421600200000000000",
+        "context_annotations" : [
+        {
+        "domain" : {
+        "id" : "22",
+        "name" : "Place",
+        "description" : "Places around the world"
+        },
+        "entity" : {
+        "id" : "39963138",
+        "name" : "UGC Ciné Cyrano",
+        "description" : "UGC Ciné Cyrano, situé à Versailles, France."
+        }
+        }
+        ],
+        "entities" : {
+        "hashtags" : [
+        {
+        "start" : 64,
+        "end" : 72,
+        "tag" : "cinéma"
+        },
+        {
+        "start" : 73,
+        "end" : 83,
+        "tag" : "Versailles"
+        },
+        {
+        "start" : 84,
+        "end" : 91,
+        "tag" : "Printemps"
+        }
+        ]
+        },
+        "author_id" : "1339914264522461187",
+        "text" : "Le Printemps du cinéma bat son plein à Versailles ! J'ai profité de cette occasion pour voir plusieurs films au UGC Ciné Cyrano, c'était génial. Si vous êtes un cinéphile comme moi, ne manquez pas cet événement ! #cinéma #Versailles #Printemps",
+        "lang" : "fr",
+        "created_at" : "2021-07-31T22:36:00.000Z"
+        },
+
+        {
+                "_id" : "1421600300000000000",
+                "public_metrics" : {
+                "retweet_count" : 0,
+                "reply_count" : 0,
+                "like_count" : 0,
+                "quote_count" : 0
+                },
+                "id" : "1421600300000000000",
+                "conversation_id" : "1421600300000000000",
+                "context_annotations" : [
+                {
+                "domain" : {
+                "id" : "22",
+                "name" : "Place",
+                "description" : "Places around the world"
+                },
+                "entity" : {
+                "id" : "149159586",
+                "name" : "Théâtre Montansier",
+                "description" : "Théâtre Montansier, situé à Versailles, France."
+                }
+                }
+                ],
+                "entities" : {
+                "hashtags" : [
+                {
+                "start" : 45,
+                "end" : 54,
+                "tag" : "théâtre"
+                },
+                {
+                "start" : 55,
+                "end" : 65,
+                "tag" : "Versailles"
+                }
+                ]
+                },
+                "author_id" : "1339914264522461187",
+                "text" : "J'ai assisté à une pièce de théâtre au Théâtre Montansier à Versailles ce soir et je dois dire que c'était une expérience terrible. Les acteurs étaient mauvais et le décor était démodé. Si vous êtes fan de théâtre, évitez cet endroit à tout prix ! #théâtre #Versailles",
+                "lang" : "fr",
+                "created_at" : "2021-07-31T22:36:30.000Z"
+             }
+            
+             ,
+             {
+                "_id" : "1421600400000000000",
+                "public_metrics" : {
+                "retweet_count" : 0,
+                "reply_count" : 0,
+                "like_count" : 0,
+                "quote_count" : 0
+                },
+                "id" : "1421600400000000000",
+                "conversation_id" : "1421600400000000000",
+                "context_annotations" : [
+                {
+                "domain" : {
+                "id" : "22",
+                "name" : "Place",
+                "description" : "Places around the world"
+                },
+                "entity" : {
+                "id" : "39963138",
+                "name" : "UGC Ciné Cyrano",
+                "description" : "UGC Ciné Cyrano, situé à Versailles, France."
+                }
+                }
+                ],
+                "entities" : {
+                "hashtags" : [
+                {
+                "start" : 60,
+                "end" : 68,
+                "tag" : "cinéma"
+                },
+                {
+                "start" : 69,
+                "end" : 79,
+                "tag" : "Versailles"
+                }
+                ]
+                },
+                "author_id" : "1339914264522461187",
+                "text" : "Je suis allé voir Avatar 2 au UGC Ciné Cyrano à Versailles hier soir et j'ai été très déçu. La qualité du son était mauvaise et les sièges étaient inconfortables. Si vous voulez une expérience cinématographique de qualité, évitez cet endroit à tout prix ! #cinéma #Versailles",
+                "lang" : "fr",
+                "created_at" : "2021-07-31T22:37:00.000Z"
+              }
+                
+
+        ]
